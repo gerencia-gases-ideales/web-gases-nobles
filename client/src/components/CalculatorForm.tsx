@@ -37,14 +37,23 @@ export default function CalculatorForm({ onCalculate, isLoading = false }: Calcu
     e.preventDefault();
     
     const data = {
-      P: variableToCalculate === "P" ? null : parseFloat(values.P) || 0,
-      V: variableToCalculate === "V" ? null : parseFloat(values.V) || 0,
-      n: variableToCalculate === "n" ? null : parseFloat(values.n) || 0,
-      T: variableToCalculate === "T" ? null : parseFloat(values.T) || 0,
+      P: variableToCalculate === "P" ? null : parseFloat(values.P),
+      V: variableToCalculate === "V" ? null : parseFloat(values.V),
+      n: variableToCalculate === "n" ? null : parseFloat(values.n),
+      T: variableToCalculate === "T" ? null : parseFloat(values.T),
       variableToCalculate,
     };
     
     onCalculate(data);
+  };
+
+  const isFormValid = () => {
+    const variables: Variable[] = ["P", "V", "n", "T"];
+    return variables.every((v) => {
+      if (v === variableToCalculate) return true;
+      const value = values[v].trim();
+      return value !== "" && !isNaN(parseFloat(value)) && parseFloat(value) > 0;
+    });
   };
 
   return (
@@ -92,6 +101,8 @@ export default function CalculatorForm({ onCalculate, isLoading = false }: Calcu
                   value={values[v]}
                   onChange={(e) => handleValueChange(v, e.target.value)}
                   disabled={variableToCalculate === v}
+                  required={variableToCalculate !== v}
+                  min="0.0001"
                   className={`h-12 font-mono ${variableToCalculate === v ? "bg-muted cursor-not-allowed" : ""}`}
                 />
               </div>
@@ -103,7 +114,7 @@ export default function CalculatorForm({ onCalculate, isLoading = false }: Calcu
               type="submit" 
               size="lg" 
               className="px-8"
-              disabled={isLoading}
+              disabled={isLoading || !isFormValid()}
               data-testid="button-calculate"
             >
               {isLoading ? (

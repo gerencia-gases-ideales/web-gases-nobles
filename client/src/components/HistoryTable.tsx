@@ -94,16 +94,16 @@ export default function HistoryTable({ history, onClearHistory }: HistoryTablePr
                     </div>
                   </TableCell>
                   <TableCell className={`text-right font-mono ${entry.variableCalculada === "P" ? "font-bold text-primary" : ""}`}>
-                    {entry.P.toFixed(4)}
+                    {entry.P != null ? entry.P.toFixed(4) : "—"}
                   </TableCell>
                   <TableCell className={`text-right font-mono ${entry.variableCalculada === "V" ? "font-bold text-primary" : ""}`}>
-                    {entry.V.toFixed(4)}
+                    {entry.V != null ? entry.V.toFixed(4) : "—"}
                   </TableCell>
                   <TableCell className={`text-right font-mono ${entry.variableCalculada === "n" ? "font-bold text-primary" : ""}`}>
-                    {entry.n.toFixed(4)}
+                    {entry.n != null ? entry.n.toFixed(4) : "—"}
                   </TableCell>
                   <TableCell className={`text-right font-mono ${entry.variableCalculada === "T" ? "font-bold text-primary" : ""}`}>
-                    {entry.T.toFixed(4)}
+                    {entry.T != null ? entry.T.toFixed(4) : "—"}
                   </TableCell>
                   <TableCell className="text-center">
                     <Badge variant="secondary" className="font-mono">

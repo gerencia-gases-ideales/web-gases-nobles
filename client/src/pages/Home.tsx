@@ -130,9 +130,16 @@ export default function Home() {
           <ResultsDisplay results={results} calculatedVariable={calculatedVariable} />
         )}
         
-        <HistoryTable history={history} onClearHistory={handleClearHistory} />
+        {history.length > 0 && (
+          <>
+            <HistoryChart history={history} />
+            <HistoryTable history={history} onClearHistory={handleClearHistory} />
+          </>
+        )}
         
-        <HistoryChart history={history} />
+        {history.length === 0 && (
+          <HistoryTable history={history} onClearHistory={handleClearHistory} />
+        )}
       </div>
     </div>
   );

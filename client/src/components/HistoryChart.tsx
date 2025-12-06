@@ -52,7 +52,11 @@ export default function HistoryChart({ history }: HistoryChartProps) {
     const ctx = chartRef.current.getContext("2d");
     if (!ctx) return;
 
-    const labels = history.map((_, i) => `#${i + 1}`);
+    const labels = history.map((entry, i) => {
+      const date = new Date(entry.timestamp);
+      return date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    }).reverse();
+    
     const dataByVariable: Record<Variable, (number | null)[]> = {
       P: [],
       V: [],
@@ -60,7 +64,7 @@ export default function HistoryChart({ history }: HistoryChartProps) {
       T: [],
     };
 
-    history.forEach((entry) => {
+    [...history].reverse().forEach((entry) => {
       (["P", "V", "n", "T"] as Variable[]).forEach((v) => {
         dataByVariable[v].push(entry.variableCalculada === v ? entry[v] : null);
       });
@@ -130,16 +134,24 @@ export default function HistoryChart({ history }: HistoryChartProps) {
   }
 
   return (
-    <Card className="max-w-4xl mx-auto mt-12">
+    <Card className="max-w-5xl mx-auto mt-12">
       <CardHeader>
         <CardTitle className="text-xl flex items-center gap-2">
           <LineChart className="w-5 h-5" />
-          Gráfica de Valores Calculados
+          Evolución de Variables Calculadas
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="aspect-video md:aspect-[16/9]" data-testid="chart-container">
+        <div className="w-full h-[400px]" data-testid="chart-container">
           <canvas ref={chartRef} />
+        </div>
+        <div className="mt-4 space-y-2">
+          <p className="text-sm text-muted-foreground text-center">
+            Solo se muestran los valores que fueron calculados en cada operación
+          </p>
+          <p className="text-sm text-muted-foreground text-center font-medium">
+            Haz clic en las etiquetas de la leyenda para mostrar u ocultar variables específicas
+          </p>
         </div>
       </CardContent>
     </Card>

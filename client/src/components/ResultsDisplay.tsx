@@ -47,7 +47,7 @@ export default function ResultsDisplay({ results, calculatedVariable }: ResultsD
                   {variableInfo[v].label}
                 </p>
                 <p className={`text-2xl font-mono font-bold mt-2 ${isCalculated ? variableInfo[v].color : ""}`}>
-                  {results[v].toFixed(4)}
+                  {results[v] != null ? results[v].toFixed(4) : "—"}
                 </p>
                 <p className="text-sm text-muted-foreground mt-1">
                   {variableInfo[v].unit}
