@@ -1,0 +1,109 @@
+Actúa como un desarrollador frontend senior. Estoy construyendo una calculadora web de la Ley de Gases Ideales que debe consumir una API ya desplegada en FastAPI.
+
+✅ Endpoint backend (ya está desplegado, NO lo modifiques):
+POST https://api-gases-nobles.onrender.com/api/calcular-gas
+
+✅ Cuerpo esperado (JSON):
+El backend espera un JSON con las cuatro variables de la ley de gases ideales:
+
+{
+  "P": number or null,
+  "V": number or null,
+  "n": number or null,
+  "T": number or null
+}
+
+
+Debe haber exactamente UNA variable en null, que es la que el backend calculará usando PV = nRT.
+
+Quiero que generes una Single Page App sencilla usando HTML, CSS y JavaScript puro (sin frameworks), todo en un solo proyecto tipo "HTML, CSS, JS" de Replit.
+
+Requerimientos funcionales:
+
+La página debe tener estas secciones:
+
+Un encabezado con el título: “Calculadora de Gases Ideales (PV = nRT)” y una breve descripción.
+
+Un formulario con 4 inputs numéricos: Presión (P), Volumen (V), Temperatura (T), Moles (n).
+
+Un selector (por ejemplo, un <select> o radio buttons) para indicar qué variable quiero calcular: P, V, T o n.
+
+Un botón “Calcular” que envíe los datos al backend.
+
+Lógica del formulario:
+
+Cuando el usuario selecciona una variable a calcular (por ejemplo P), ese campo puede quedar vacío y en el JSON debe enviarse como null.
+
+Las otras variables deben convertirse a number con parseFloat (o similar).
+
+Construye el body del fetch así:
+
+La variable seleccionada para calcular → null
+
+Las demás → número
+
+Envía un fetch:
+
+fetch("https://api-gases-nobles.onrender.com/api/calcular-gas", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ P, V, n, T })
+})
+
+
+Manejo de respuesta:
+
+Si la respuesta incluye error, mostrar el mensaje de error en la página.
+
+Si el cálculo es exitoso, mostrar:
+
+El valor calculado.
+
+Todas las variables finales (P, V, n, T).
+
+Historial en memoria:
+
+Crea un array historial en JavaScript.
+
+Cada vez que haya un cálculo exitoso, agrega un objeto:
+
+{
+  timestamp: nueva Fecha(),
+  P, V, n, T,
+  variableCalculada: "P" o "V" o "T" o "n"
+}
+
+
+Muestra este historial en una tabla HTML debajo del resultado (una fila por cálculo).
+
+(Opcional pero deseable) Guarda también el historial en localStorage para que se mantenga al recargar la página.
+
+Gráfica en línea de tiempo:
+
+Usa Chart.js desde CDN (incluye el <script> de Chart.js en el HTML).
+
+Crea un gráfico de líneas donde:
+
+El eje X sea el tiempo (puede ser el índice del cálculo o la hora formateada).
+
+El eje Y sea el valor de la variable calculada en cada operación.
+
+Cada vez que se agrega un nuevo cálculo al historial:
+
+Añade un nuevo punto a la serie de datos del gráfico.
+
+Actualiza el gráfico sin recargar la página.
+
+Estructura del proyecto:
+
+Usa un solo index.html con:
+
+<style> interno simple para que se vea ordenado (layout centrado, inputs alineados, tabla y gráfico claros).
+
+<script> al final del body para toda la lógica JS.
+
+No uses React, ni bundlers; solo HTML + CSS + JS vanilla.
+
+Añade comentarios en el código explicando los bloques clave (formulario, fetch, historial, gráfico) para que un estudiante pueda entender la lógica.
